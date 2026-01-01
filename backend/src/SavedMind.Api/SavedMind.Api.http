@@ -1,0 +1,6 @@
+@SavedMind.Api_HostAddress = http://localhost:5062
+
+GET {{SavedMind.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

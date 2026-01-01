@@ -1,0 +1,119 @@
+# =========================
+# SavedMind Project .gitignore
+# =========================
+
+# -----------------
+# .NET / C#
+# -----------------
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.user
+*.userosscache
+*.suo
+*.cache
+*.vs/
+.vscode/
+*.nupkg
+project.lock.json
+*.nuget.props
+*.nuget.targets
+
+# User-specific files
+*.rsuser
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# -----------------
+# Node.js / Bun
+# -----------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn-integrity
+bun.lockb
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# -----------------
+# Plasmo Extension
+# -----------------
+.plasmo/
+build/
+*.crx
+*.pem
+*.zip
+
+# -----------------
+# Environment
+# -----------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.env
+
+# -----------------
+# IDE & Editors
+# -----------------
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# -----------------
+# OS Files
+# -----------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# -----------------
+# Testing
+# -----------------
+coverage/
+.nyc_output/
+*.lcov
+
+# -----------------
+# Misc
+# -----------------
+*.log
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+.turbo/

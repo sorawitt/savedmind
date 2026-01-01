@@ -1,0 +1,31 @@
+{
+    "name": "savedmind-extension",
+    "displayName": "SavedMind",
+    "version": "0.0.1",
+    "description": "Save and search your bookmarks with AI",
+    "author": "SavedMind",
+    "scripts": {
+        "dev": "plasmo dev",
+        "build": "plasmo build",
+        "package": "plasmo package"
+    },
+    "dependencies": {
+        "plasmo": "^0.90.5",
+        "preact": "^10.25.5"
+    },
+    "devDependencies": {
+        "@plasmohq/prettier-plugin-sort-imports": "^4.0.1",
+        "@types/chrome": "^0.0.300",
+        "prettier": "^3.4.2",
+        "typescript": "^5.7.3"
+    },
+    "manifest": {
+        "permissions": [
+            "activeTab",
+            "storage"
+        ],
+        "host_permissions": [
+            "http://localhost:*/*"
+        ]
+    }
+}
