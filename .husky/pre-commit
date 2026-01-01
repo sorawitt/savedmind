@@ -1,0 +1,17 @@
+#!/bin/sh
+# Gitleaks pre-commit hook - prevents committing secrets
+
+if ! command -v gitleaks &> /dev/null; then
+    echo "⚠️  gitleaks not installed. Install with: brew install gitleaks"
+    exit 0
+fi
+
+echo "🔍 Scanning for secrets..."
+gitleaks protect --staged --verbose
+
+if [ $? -ne 0 ]; then
+    echo "❌ Secrets detected! Commit blocked."
+    exit 1
+fi
+
+echo "✅ No secrets found."

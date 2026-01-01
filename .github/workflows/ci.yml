@@ -86,6 +86,19 @@ jobs:
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
 
+  secrets:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   docker:
     name: Docker Build & Push
     runs-on: ubuntu-latest
