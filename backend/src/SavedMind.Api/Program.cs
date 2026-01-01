@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using SavedMind.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Add DbContext
+builder.Services.AddDbContext<SavedMind.Infrastructure.Persistence.AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), o => o.UseVector()));
 
 var app = builder.Build();
 
