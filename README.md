@@ -1,5 +1,7 @@
 # SavedMind
 
+[![CI](https://github.com/sorawitt/savedmind/actions/workflows/ci.yml/badge.svg)](https://github.com/sorawitt/savedmind/actions/workflows/ci.yml)
+
 Personal bookmark manager that actually helps you find stuff later.
 
 ## The Problem
