@@ -1,6 +1,9 @@
 # SavedMind
 
 [![CI](https://github.com/sorawitt/savedmind/actions/workflows/ci.yml/badge.svg)](https://github.com/sorawitt/savedmind/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4)](https://dotnet.microsoft.com/)
+[![Preact](https://img.shields.io/badge/Preact-10.x-673AB8)](https://preactjs.com/)
 
 Personal bookmark manager that actually helps you find stuff later.
 
