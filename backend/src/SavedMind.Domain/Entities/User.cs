@@ -13,6 +13,7 @@ public class User
     public string LastName { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
+    public bool EmailVerified { get; set; } = false;
 
     // Navigation Properties (EF Core Relationships)
     public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
