@@ -1,25 +1,26 @@
-using System.Threading.RateLimiting;
+using System.Text;
 using FluentValidation;
-using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SavedMind.Api.Middleware;
 using SavedMind.Application.Common.Behaviors;
+using SavedMind.Application.Common.Security;
 using SavedMind.Application.Features.Auth.Register;
 using SavedMind.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// Add DbContext
+// DbContext
 builder.Services.AddDbContext<SavedMind.Infrastructure.Persistence.AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), o => o.UseVector()));
 
-
-// MediatR + FluentValidation Pipeline
+// MediatR + FluentValidation
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining<RegisterCommand>();
@@ -31,8 +32,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegisterCommandValidator>()
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-
-    // Auth endpoints: 10 requests per hour per IP
     options.AddFixedWindowLimiter("auth", limiter =>
     {
         limiter.PermitLimit = 10;
@@ -41,11 +40,49 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+// ═══════════════════════════════════════════════════════════════
+// JWT CONFIGURATION
+// ═══════════════════════════════════════════════════════════════
+
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection(JwtSettings.SectionName));
+
+var jwtSettings = builder.Configuration
+    .GetSection(JwtSettings.SectionName)
+    .Get<JwtSettings>()!;
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings.Issuer,
+
+        ValidateAudience = true,
+        ValidAudience = jwtSettings.Audience,
+
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// Infrastructure services
 builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -53,6 +90,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRateLimiter();
+app.UseAuthentication();  // ← Add this
+app.UseAuthorization();   // ← Add this
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
