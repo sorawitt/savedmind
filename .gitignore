@@ -21,6 +21,9 @@ project.lock.json
 *.nuget.props
 *.nuget.targets
 
+# Local secrets (never commit!)
+appsettings.Development.json
+
 # User-specific files
 *.rsuser
 *.sln.docstates
