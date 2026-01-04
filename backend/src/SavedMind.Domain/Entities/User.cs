@@ -14,6 +14,9 @@ public class User
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public bool EmailVerified { get; set; } = false;
+    public int FailedLoginAttempts { get; set; }
+    public DateTime? LockoutEnd { get; set; }
+    public bool IsLockedOut => LockoutEnd.HasValue && LockoutEnd > DateTime.UtcNow;
 
     // Navigation Properties (EF Core Relationships)
     public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();

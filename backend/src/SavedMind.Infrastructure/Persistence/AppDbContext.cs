@@ -39,7 +39,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(e => e.LastName).HasColumnName("last_name");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-
+            entity.Property(e => e.FailedLoginAttempts).HasColumnName("failed_login_attempts").HasDefaultValue(0);
+            entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
+            entity.Ignore(e => e.IsLockedOut);
             entity.HasIndex(e => e.Email).IsUnique();
         });
 
